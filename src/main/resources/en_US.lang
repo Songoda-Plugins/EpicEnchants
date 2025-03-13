@@ -8,44 +8,44 @@ general:
 
 command:
   book:
-    received: '&7You have been given a &6{enchant}&r &7book.'
-    gave: '&7You gave &6{player} &7a &6{enchant}&r &7book.'
-    maxlevel: '&cThe max level for &4{enchant}&r &cis &4{max_level}&c.'
-    minlevel: '&cThe min level for &4{enchant}&r &cis &41&c.'
+    received: '&7You have been given a &6%enchant%&r &7book.'
+    gave: '&7You gave &6%player% &7a &6%enchant%&r &7book.'
+    maxlevel: '&cThe max level for &4%enchant%&r &cis &4%max_level%&c.'
+    minlevel: '&cThe min level for &4%enchant%&r &cis &41&c.'
   randombook:
     received: '&7You have been given a random book.'
-    gave: '&7You gave &6{player} &7a random book.'
+    gave: '&7You gave &6%player% &7a random book.'
   whitescroll:
     received: '&7You have been given a whitescroll.'
-    gave: '&7You gave &6{player} &7a whitescroll.'
+    gave: '&7You gave &6%player% &7a whitescroll.'
   blackscroll:
     received: '&7You have been given a blackscroll.'
-    gave: '&7You gave &6{player} &7a blackscroll.'
+    gave: '&7You gave &6%player% &7a blackscroll.'
   apply:
-    invaliditem: '&cYou cannot apply &4{enchant}&r &cto this item.'
+    invaliditem: '&cYou cannot apply &4%enchant%&r &cto this item.'
   reload: '&7Configuration files reloaded.'
-  giveunknown: '&cUnknown item to give &4{unknown}&c.'
+  giveunknown: '&cUnknown item to give &4%unknown%&c.'
   dust:
-    gave: '&7Gave &6{group} DUST &7to &6{player}&7.'
-    received: '&7You have received &6{group} DUST&7.'
+    gave: '&7Gave &6%group% DUST &7to &6%player%&7.'
+    received: '&7You have received &6%group% DUST&7.'
 
 # Event Messages
 
 blackscroll:
-  success: '&7Successfully blackscrolled &6{group_color}{enchant}&r&6 {level}&7.'
+  success: '&7Successfully blackscrolled &6%group_color%%enchant%&r&6 %level%&7.'
   noenchants: '&cNo enchants to blackscroll.'
 whitescroll:
   alreadyapplied: '&cThis item is already protected!'
   applied: '&7This item is now protected!'
 enchanter:
   cannotafford: '&cYou cannot afford this purchase.'
-  success: '&7Purchased &6{group_color}{group_name} &7book for &6{exp_cost} experience&7.'
+  success: '&7Purchased &6%group_color%%group_name% &7book for &6%exp_cost% experience&7.'
 tinkerer:
   open: '&7Trading with the tinkerer.'
   cancelled: '&cCancelled.'
   accepted: '&7Accepted.'
   noitems: '&cThe tinkerer is not interested in any of your items...'
-  depositedall: '&7Deposited {amount} items.'
+  depositedall: '&7Deposited %amount% items.'
 alchemist:
   maxtwoitems: '&cYou may only combine &42 &citems at once...'
   notinterested: '&cThe alchemist is not interested in any of your items...'
@@ -56,16 +56,16 @@ alchemist:
   differentlevels: '&cThe alchemist can only combine books of the same level...'
   differentgroups: '&cThe alchemist can only combine dust of the same group...'
   cannotafford: '&cYou cannot afford this exchange...'
-  success: '&7Exchanged for &6{exp_cost} &7experience.'
+  success: '&7Exchanged for &6%exp_cost% &7experience.'
 enchants:
-  invalidmaterial: '&cYou can not apply &4{enchant}&r &cto that item...'
-  failure: '&4{enchant}&r &cfailed to apply...'
-  brokenfailure: '&4{enchant}&r &cfailed to apply and broke your item...'
+  invalidmaterial: '&cYou can not apply &4%enchant%&r &cto that item...'
+  failure: '&4%enchant%&r &cfailed to apply...'
+  brokenfailure: '&4%enchant%&r &cfailed to apply and broke your item...'
   conflict: '&cYou cannot apply this enchant as it conflicts with another enchant...'
   maxedout: '&cYou already have that enchant maxed out on this item...'
   alreadyapplied: '&cYou already have that enchant applied on this item.'
   protected: '&7This book would have broken your item, luckily it was protected!'
-  success: '&7You have successfully applied &6{enchant}&r&7.'
-  maxallowed: '&cYou cannot apply more than &4{max_enchants} &cenchants!'
+  success: '&7You have successfully applied &6%enchant%&r&7.'
+  maxallowed: '&cYou cannot apply more than &4%max_enchants% &cenchants!'
 book:
-  discover: '&7You examine the &6{group_color}{group_name} &7Enchantment Book, and discover &6{enchant_format}&7!'
+  discover: '&7You examine the &6%group_color%%group_name% &7Enchantment Book, and discover &6%enchant_format%&7!'
