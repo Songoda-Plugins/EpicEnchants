@@ -93,22 +93,25 @@ public class GeneralUtils {
     }
 
     public static Object parseJS(String toParse, String type, Object def) {
-        if (toParse.trim().matches("^\\d+(?>\\.\\d+)?\\s+([<>])\\s*\\d+(?>\\.\\d+)?$")) {   // e.g. "1 < 2"
-            toParse = toParse.trim();
+        toParse = toParse.trim();
+        // Handle strict equality (===) for numbers and strings
+        if (toParse.matches("^(\\S+)\\s*===\\s*(\\S+)$")) {
+            String[] parts = toParse.split("\\s*===\\s*", 2);
+            String left = parts[0];
+            String right = parts[1];
 
-            double firstNumber = Double.parseDouble(toParse.substring(0, toParse.indexOf(" ")));
-            String symbol = toParse.substring(toParse.indexOf(" ") + 1, toParse.indexOf(" ") + 2);
-            double secondNumber = Double.parseDouble(toParse.substring(toParse.indexOf(" ") + 2));
-
-            if (symbol.equals(">")) {
-                return firstNumber > secondNumber;
+            // Try parsing as numbers first
+            try {
+                double leftNum = Double.parseDouble(left);
+                double rightNum = Double.parseDouble(right);
+                return leftNum == rightNum;
+            } catch (NumberFormatException ignored) {
+                // Not numbers, compare as strings
             }
-
-            return firstNumber < secondNumber;
+            return left.equals(right);
         }
-
-        // FIXME: JavaScript != Math...
-        //        Input "false ? (8 * 3) : (4 * 3)" fails for obvious reasons
+        // Forward all other cases to Eval
         return MathUtils.eval(toParse, "[EpicEnchants] One of your " + type + " expressions is not properly formatted.");
     }
+
 }
