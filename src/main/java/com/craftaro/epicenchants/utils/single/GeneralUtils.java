@@ -99,7 +99,6 @@ public class GeneralUtils {
             String[] parts = toParse.split("\\s*===\\s*", 2);
             String left = parts[0];
             String right = parts[1];
-
             // Try parsing as numbers first
             try {
                 double leftNum = Double.parseDouble(left);
@@ -110,7 +109,18 @@ public class GeneralUtils {
             }
             return left.equals(right);
         }
-        // Forward all other cases to Eval
+        // Handle > and < by returning the greater or smaller number
+        if (toParse.matches("^\\s*\\d+(?:\\.\\d+)?\\s*(>|<)\\s*\\d+(?:\\.\\d+)?\\s*$")) {
+            toParse = toParse.replaceAll("\\s+", ""); // Remove spaces for easier parsing
+            char operator = toParse.contains(">") ? '>' : '<';
+            String[] parts = toParse.split("[<>]");
+
+            double left = Double.parseDouble(parts[0]);
+            double right = Double.parseDouble(parts[1]);
+
+            return (operator == '>') ? Math.max(left, right) : Math.min(left, right);
+        }
+        // Forward everything else to Eval
         return MathUtils.eval(toParse, "[EpicEnchants] One of your " + type + " expressions is not properly formatted.");
     }
 
