@@ -11,7 +11,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -94,6 +93,33 @@ public class GeneralUtils {
 
     public static Object parseJS(String toParse, String type, Object def) {
         toParse = toParse.trim();
+        // Handle logical AND (&&) and OR (||)
+        if (toParse.contains("&&") || toParse.contains("||")) {
+            String[] parts;
+            boolean isAnd = toParse.contains("&&");
+
+            if (isAnd) {
+                parts = toParse.split("\\s*&&\\s*");
+            } else {
+                parts = toParse.split("\\s*\\|\\|\\s*");
+            }
+            boolean result = isAnd; // Start with true for AND, false for OR
+
+            for (String part : parts) {
+                Object evalResult = parseJS(part, type, def); // Recursively evaluate each condition
+
+                if (!(evalResult instanceof Boolean)) {
+                    throw new RuntimeException("[EpicEnchants] Invalid boolean expression: " + part);
+                }
+
+                if (isAnd) {
+                    result &= (boolean) evalResult; // AND logic
+                } else {
+                    result |= (boolean) evalResult; // OR logic
+                }
+            }
+            return result;
+        }
         // Handle strict equality (===) for numbers and strings
         if (toParse.matches("^(\\S+)\\s*===\\s*(\\S+)$")) {
             String[] parts = toParse.split("\\s*===\\s*", 2);
@@ -123,5 +149,6 @@ public class GeneralUtils {
         // Forward everything else to Eval
         return MathUtils.eval(toParse, "[EpicEnchants] One of your " + type + " expressions is not properly formatted.");
     }
+
 
 }
