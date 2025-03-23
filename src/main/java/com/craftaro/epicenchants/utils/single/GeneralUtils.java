@@ -11,7 +11,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -93,22 +92,63 @@ public class GeneralUtils {
     }
 
     public static Object parseJS(String toParse, String type, Object def) {
-        if (toParse.trim().matches("^\\d+(?>\\.\\d+)?\\s+([<>])\\s*\\d+(?>\\.\\d+)?$")) {   // e.g. "1 < 2"
-            toParse = toParse.trim();
+        toParse = toParse.trim();
+        // Handle logical AND (&&) and OR (||)
+        if (toParse.contains("&&") || toParse.contains("||")) {
+            String[] parts;
+            boolean isAnd = toParse.contains("&&");
 
-            double firstNumber = Double.parseDouble(toParse.substring(0, toParse.indexOf(" ")));
-            String symbol = toParse.substring(toParse.indexOf(" ") + 1, toParse.indexOf(" ") + 2);
-            double secondNumber = Double.parseDouble(toParse.substring(toParse.indexOf(" ") + 2));
-
-            if (symbol.equals(">")) {
-                return firstNumber > secondNumber;
+            if (isAnd) {
+                parts = toParse.split("\\s*&&\\s*");
+            } else {
+                parts = toParse.split("\\s*\\|\\|\\s*");
             }
+            boolean result = isAnd; // Start with true for AND, false for OR
 
-            return firstNumber < secondNumber;
+            for (String part : parts) {
+                Object evalResult = parseJS(part, type, def); // Recursively evaluate each condition
+
+                if (!(evalResult instanceof Boolean)) {
+                    throw new RuntimeException("[EpicEnchants] Invalid boolean expression: " + part);
+                }
+
+                if (isAnd) {
+                    result &= (boolean) evalResult; // AND logic
+                } else {
+                    result |= (boolean) evalResult; // OR logic
+                }
+            }
+            return result;
         }
+        // Handle strict equality (===) for numbers and strings
+        if (toParse.matches("^(\\S+)\\s*===\\s*(\\S+)$")) {
+            String[] parts = toParse.split("\\s*===\\s*", 2);
+            String left = parts[0];
+            String right = parts[1];
+            // Try parsing as numbers first
+            try {
+                double leftNum = Double.parseDouble(left);
+                double rightNum = Double.parseDouble(right);
+                return leftNum == rightNum;
+            } catch (NumberFormatException ignored) {
+                // Not numbers, compare as strings
+            }
+            return left.equals(right);
+        }
+        // Handle > and < by returning the greater or smaller number
+        if (toParse.matches("^\\s*\\d+(?:\\.\\d+)?\\s*(>|<)\\s*\\d+(?:\\.\\d+)?\\s*$")) {
+            toParse = toParse.replaceAll("\\s+", ""); // Remove spaces for easier parsing
+            char operator = toParse.contains(">") ? '>' : '<';
+            String[] parts = toParse.split("[<>]");
 
-        // FIXME: JavaScript != Math...
-        //        Input "false ? (8 * 3) : (4 * 3)" fails for obvious reasons
+            double left = Double.parseDouble(parts[0]);
+            double right = Double.parseDouble(parts[1]);
+
+            return (operator == '>') ? Math.max(left, right) : Math.min(left, right);
+        }
+        // Forward everything else to Eval
         return MathUtils.eval(toParse, "[EpicEnchants] One of your " + type + " expressions is not properly formatted.");
     }
+
+
 }

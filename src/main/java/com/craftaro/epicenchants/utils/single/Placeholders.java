@@ -112,7 +112,6 @@ public class Placeholders {
             if (opponent instanceof Player)
                 output.updateAndGet(string -> PlaceholderAPI.setRelationalPlaceholders(user, (Player) opponent, inputFinal));
         }
-
         return output.get();
     }
 }

@@ -20,7 +20,7 @@ description:
 item-whitelist:
   - "BOOTS"
 
-# For a full list of effects, please visit: https://wiki.craftaro.com/index.php/Epic_Enchants#Tutorials
+# For a full list of effects, please visit: https://wiki.songoda.com/EpicEnchants-1130f10897028172be4bfe3b085cfcde
 effects:
   POTION:
     # The trigger that will fire this effect.

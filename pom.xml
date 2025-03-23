@@ -3,11 +3,11 @@
 
     <groupId>com.craftaro</groupId>
     <artifactId>EpicEnchants</artifactId>
-    <version>2.5.1</version>
+    <version>2.5.2</version>
 
     <name>EpicEnchants</name>
     <description>Unlock the potential of your weapons, tools and armor by making your own custom enchants.</description>
-    <url>https://craftaro.com/marketplace/product/67</url>
+    <url>https://songoda.com/product/epicenchants-4</url>
 
     <properties>
         <maven.compiler.release>8</maven.compiler.release>
@@ -33,7 +33,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.3</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -100,8 +100,8 @@
 
     <repositories>
         <repository>
-            <id>craftaro-minecraft-plugins</id>
-            <url>https://repo.craftaro.com/repository/minecraft-plugins/</url>
+            <id>songoda-minecraft-plugins</id>
+            <url>https://repo.songoda.com/repository/minecraft-plugins/</url>
         </repository>
 
         <repository>
