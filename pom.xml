@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.craftaro</groupId>
+    <groupId>com.songoda</groupId>
     <artifactId>EpicEnchants</artifactId>
     <version>2.5.2</version>
 
@@ -18,13 +18,13 @@
     </properties>
 
     <issueManagement>
-        <url>https://discord.gg/craftaro</url>
+        <url>https://discord.gg/7TXM8xr2Ng</url>
         <system>Discord server</system>
     </issueManagement>
 
     <scm>
-        <url>https://github.com/craftaro/EpicEnchants</url>
-        <connection>scm:git:git://github.com/craftaro/EpicEnchants.git</connection>
+        <url>https://github.com/Songoda-Plugins/EpicEnchants</url>
+        <connection>scm:git:git://github.com/Songoda-Plugins/EpicEnchants.git</connection>
     </scm>
 
     <build>
@@ -49,8 +49,8 @@
 
                             <relocations>
                                 <relocation>
-                                    <pattern>com.craftaro.core</pattern>
-                                    <shadedPattern>com.craftaro.epicenchants.core</shadedPattern>
+                                    <pattern>com.songoda.core</pattern>
+                                    <shadedPattern>com.songoda.epicenchants.core</shadedPattern>
                                 </relocation>
                             </relocations>
 
@@ -66,7 +66,7 @@
                                 </filter>
 
                                 <filter>
-                                    <artifact>com.craftaro:CraftaroCore</artifact>
+                                    <artifact>com.songoda:SongodaCore</artifact>
                                     <excludeDefaults>false</excludeDefaults>
                                     <includes>
                                         <include>**/nms/v*/**</include>
@@ -117,9 +117,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.craftaro</groupId>
-            <artifactId>CraftaroCore</artifactId>
-            <version>3.8.0-SNAPSHOT</version>
+            <groupId>com.songoda</groupId>
+            <artifactId>SongodaCore</artifactId>
+            <version>3.9.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
