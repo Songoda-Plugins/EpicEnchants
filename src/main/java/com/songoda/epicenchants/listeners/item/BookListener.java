@@ -109,8 +109,7 @@ public class BookListener extends ItemListener {
         this.instance.getLocale().getMessage("book.discover")
                 .processPlaceholder("group_name", group.getName())
                 .processPlaceholder("group_color", group.getColor())
-                .processPlaceholder("enchant_format", enchant.get().getFormat())
-                .processPlaceholder("level", level)
+                .processPlaceholder("enchant_format", enchant.get().getFormat(level, true))
                 .sendPrefixedMessage(event.getPlayer());
     }
 }
