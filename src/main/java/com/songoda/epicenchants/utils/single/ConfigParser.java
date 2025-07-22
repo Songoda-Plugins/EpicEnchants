@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import com.songoda.third_party.com.cryptomorin.xseries.XMaterial;
 
 public class ConfigParser {
     public static Enchant parseEnchant(EpicEnchants instance, FileConfiguration config) {
@@ -50,7 +51,7 @@ public class ConfigParser {
     private static BookItem parseBookItem(EpicEnchants instance, ConfigurationSection section) {
         return section != null ? BookItem.builder()
                 .instance(instance)
-                .material(Material.valueOf(section.getString("material")))
+                .material(XMaterial.matchXMaterial(section.getString("material")).orElse(XMaterial.STONE).parseMaterial())
                 .displayName(GeneralUtils.color(section.getString("display-name")))
                 .lore(section.getStringList("lore").stream().map(GeneralUtils::color).collect(Collectors.toList()))
                 .build() : null;

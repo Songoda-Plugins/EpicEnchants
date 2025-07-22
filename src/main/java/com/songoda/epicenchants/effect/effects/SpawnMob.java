@@ -42,11 +42,11 @@ public class SpawnMob extends EffectExecutor {
         this.equipmentDropChance = LeveledModifier.of(section.getString("equipment-drop-chance"));
         this.hostile = section.getBoolean("hostile", false);
         this.displayName = section.isString("display-name") ? color(section.getString("display-name")) : "";
-        this.helmet = section.isConfigurationSection("equipment.helmet") ? new ItemBuilder(section.getConfigurationSection("equipment.helmet")) : null;
-        this.chestPlate = section.isConfigurationSection("equipment.chestplate") ? new ItemBuilder(section.getConfigurationSection("equipment.chestplate")) : null;
-        this.leggings = section.isConfigurationSection("equipment.leggings") ? new ItemBuilder(section.getConfigurationSection("equipment.leggings")) : null;
-        this.boots = section.isConfigurationSection("equipment.boots") ? new ItemBuilder(section.getConfigurationSection("equipment.boots")) : null;
-        this.handItem = section.isConfigurationSection("equipment.hand-item") ? new ItemBuilder(section.getConfigurationSection("equipment.hand-item")) : null;
+        this.helmet = section.isConfigurationSection("equipment.helmet") ? ItemBuilder.fromSection(section.getConfigurationSection("equipment.helmet")) : null;
+        this.chestPlate = section.isConfigurationSection("equipment.chestplate") ? ItemBuilder.fromSection(section.getConfigurationSection("equipment.chestplate")) : null;
+        this.leggings = section.isConfigurationSection("equipment.leggings") ? ItemBuilder.fromSection(section.getConfigurationSection("equipment.leggings")) : null;
+        this.boots = section.isConfigurationSection("equipment.boots") ? ItemBuilder.fromSection(section.getConfigurationSection("equipment.boots")) : null;
+        this.handItem = section.isConfigurationSection("equipment.hand-item") ? ItemBuilder.fromSection(section.getConfigurationSection("equipment.hand-item")) : null;
     }
 
     @Override

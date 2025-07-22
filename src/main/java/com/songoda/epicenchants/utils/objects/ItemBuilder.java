@@ -51,20 +51,21 @@ public class ItemBuilder {
     }
 
     public ItemBuilder(ConfigurationSection section, Player player, Placeholder... placeholders) {
-        this(section, placeholders);
+        this(ItemBuilder.fromSection(section, placeholders).build());
 
         if (XMaterial.PLAYER_HEAD.isSimilar(this.item)) {
             ((SkullMeta) this.item.getItemMeta()).setOwner(player.getName());
         }
     }
 
-    public ItemBuilder(ConfigurationSection section, Placeholder... placeholders) {
-        this(Material.valueOf(section.getString("material")), (byte) (section.contains("data") ? section.getInt("data") : 0));
+    public static ItemBuilder fromSection(ConfigurationSection section, Placeholder... placeholders) {
+        MaterialAndData matData = resolveMaterialAndData(section);
+        ItemBuilder builder = new ItemBuilder(matData.material, matData.data);
 
         if (section.contains("enchants")) {
             section.getStringList("enchants").stream()
                     .map(ConfigParser::parseEnchantmentWrapper)
-                    .forEach(this::addEnchantWrapper);
+                    .forEach(builder::addEnchantWrapper);
         }
 
         if (section.contains("display-name")) {
@@ -72,7 +73,7 @@ public class ItemBuilder {
             for (Placeholder placeholder : placeholders) {
                 displayName = displayName.replace(placeholder.getPlaceholder(), placeholder.getToReplace().toString());
             }
-            name(color(displayName));
+            builder.name(color(displayName));
         }
 
         if (section.contains("lore")) {
@@ -93,14 +94,59 @@ public class ItemBuilder {
 
                 lore.set(i, string);
             }
-            lore(lore.stream().map(GeneralUtils::color).collect(Collectors.toList()));
+            builder.lore(lore.stream().map(GeneralUtils::color).collect(Collectors.toList()));
         }
+        return builder;
     }
 
     public ItemBuilder(ItemStack item) {
         this.item = item;
         this.meta = item.getItemMeta();
         this.enchantmentWrappers = new HashSet<>();
+    }
+
+    private static class MaterialAndData {
+        public final Material material;
+        public final byte data;
+        public MaterialAndData(Material material, byte data) {
+            this.material = material;
+            this.data = data;
+        }
+    }
+
+    private static MaterialAndData resolveMaterialAndData(ConfigurationSection section) {
+        String matName = section.getString("material");
+        int data = section.contains("data") ? section.getInt("data") : 0;
+        XMaterial xmat;
+        if ("INK_SACK".equalsIgnoreCase(matName)) {
+            xmat = getDyeByData(data);
+        } else {
+            xmat = XMaterial.matchXMaterial(matName).orElse(XMaterial.STONE);
+        }
+        Material material = xmat.parseMaterial();
+        return new MaterialAndData(material, (byte) data);
+    }
+
+    private static XMaterial getDyeByData(int data) {
+        switch (data) {
+            case 0: return XMaterial.BLACK_DYE;
+            case 1: return XMaterial.RED_DYE;
+            case 2: return XMaterial.GREEN_DYE;
+            case 3: return XMaterial.BROWN_DYE;
+            case 4: return XMaterial.BLUE_DYE;
+            case 5: return XMaterial.PURPLE_DYE;
+            case 6: return XMaterial.CYAN_DYE;
+            case 7: return XMaterial.LIGHT_GRAY_DYE;
+            case 8: return XMaterial.GRAY_DYE;
+            case 9: return XMaterial.PINK_DYE;
+            case 10: return XMaterial.LIME_DYE;
+            case 11: return XMaterial.YELLOW_DYE;
+            case 12: return XMaterial.LIGHT_BLUE_DYE;
+            case 13: return XMaterial.MAGENTA_DYE;
+            case 14: return XMaterial.ORANGE_DYE;
+            case 15: return XMaterial.WHITE_DYE;
+            default: return XMaterial.BLACK_DYE;
+        }
     }
 
     /*

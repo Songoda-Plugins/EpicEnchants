@@ -44,7 +44,7 @@ public class TinkererMenu extends FastInv {
         AtomicBoolean accepted = new AtomicBoolean(false);
 
         if (config.isConfigurationSection("fill")) {
-            fill(new ItemBuilder(config.getConfigurationSection("fill")).build());
+            fill(ItemBuilder.fromSection(config.getConfigurationSection("fill")).build());
         }
 
         config.getConfigurationSection("contents").getKeys(false)
@@ -52,7 +52,7 @@ public class TinkererMenu extends FastInv {
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
                 .forEach(section -> {
-                    addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build(), event -> {
+                    addItem(getSlots(section.getString("slot")), ItemBuilder.fromSection(section).build(), event -> {
                         if (section.getName().equalsIgnoreCase("accept-left") || section.getName().equalsIgnoreCase("accept-right")) {
                             this.slotMap.values().stream().map(slot -> getInventory().getItem(slot)).filter(Objects::nonNull).forEach(event.getPlayer().getInventory()::addItem);
                             this.slotMap.keySet().forEach(slot -> getInventory().clear(slot));

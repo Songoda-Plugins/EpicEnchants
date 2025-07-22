@@ -23,7 +23,7 @@ public class SpecialItems {
     }
 
     public ItemStack getWhiteScroll(int amount) {
-        NBTItem nbtItem = new ItemBuilder(this.instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("white-scroll")).nbt();
+        NBTItem nbtItem = ItemBuilder.fromSection(this.instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("white-scroll")).nbt();
         nbtItem.setBoolean("white-scroll", true);
         ItemStack itemStack = nbtItem.getItem();
 
@@ -34,7 +34,7 @@ public class SpecialItems {
 
     public ItemStack getBlackScroll(int amount, int chance) {
         int successRate = chance == -1 ? ThreadLocalRandom.current().nextInt(Settings.BLACK_MIN.getInt(), Settings.BLACK_MAX.getInt() + 1) : chance;
-        NBTItem nbtItem = new ItemBuilder(this.instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("black-scroll"), Placeholder.of("success-rate", successRate)).nbt();
+        NBTItem nbtItem = ItemBuilder.fromSection(this.instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("black-scroll"), Placeholder.of("success-rate", successRate)).nbt();
 
         nbtItem.setBoolean("black-scroll", true);
         nbtItem.setInteger("success-rate", successRate);
@@ -47,7 +47,7 @@ public class SpecialItems {
     }
 
     public ItemStack getMysteryBook(Group group) {
-        NBTItem nbtItem = new ItemBuilder(this.instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("mystery-book"),
+        NBTItem nbtItem = ItemBuilder.fromSection(this.instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("mystery-book"),
                 Placeholder.of("group-color", group.getColor()),
                 Placeholder.of("group-name", group.getName())).nbt();
 
@@ -62,7 +62,7 @@ public class SpecialItems {
     }
 
     public ItemStack getSecretDust(Group group, int max) {
-        NBTItem nbtItem = new ItemBuilder(this.instance.getFileManager().getConfiguration("items/dusts").getConfigurationSection("secret-dust"),
+        NBTItem nbtItem = ItemBuilder.fromSection(this.instance.getFileManager().getConfiguration("items/dusts").getConfigurationSection("secret-dust"),
                 Placeholder.of("group-color", group.getColor()),
                 Placeholder.of("group-name", group.getName()),
                 Placeholder.of("max-rate", max),
@@ -102,7 +102,7 @@ public class SpecialItems {
             percentage = ThreadLocalRandom.current().nextInt(0, 10);
         }
 
-        NBTItem nbtItem = new ItemBuilder(config,
+        NBTItem nbtItem = ItemBuilder.fromSection(config,
                 Placeholder.of("group-color", group.getColor()),
                 Placeholder.of("group-name", group.getName()),
                 Placeholder.of("percentage", percentage)).nbt();

@@ -17,7 +17,7 @@ public class MainInfoMenu extends FastInv implements Listener {
                 .stream()
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
-                .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build(), event -> {
+                .forEach(section -> addItem(getSlots(section.getString("slot")), ItemBuilder.fromSection(section).build(), event -> {
                     if (section.getString("group") == null) {
                         return;
                     }

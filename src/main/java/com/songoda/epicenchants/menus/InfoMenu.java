@@ -38,7 +38,7 @@ public class InfoMenu extends FastInv {
                     .stream()
                     .map(s -> "contents." + s)
                     .map(config::getConfigurationSection)
-                    .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build(), event -> {
+                    .forEach(section -> addItem(getSlots(section.getString("slot")), ItemBuilder.fromSection(section).build(), event -> {
                         if (section.getName().contains("back")) {
                             instance.getInfoManager().getMainInfoMenu().open(event.getPlayer());
                         }
@@ -53,7 +53,7 @@ public class InfoMenu extends FastInv {
                     .map(s -> StringUtils.capitalize(s.toLowerCase()))
                     .collect(Collectors.joining(", "));
 
-            addItem(slot, new ItemBuilder(config.getConfigurationSection("enchant-item"),
+            addItem(slot, ItemBuilder.fromSection(config.getConfigurationSection("enchant-item"),
                     Placeholder.of("group_color", enchant.getGroup().getColor()),
                     Placeholder.of("enchant", enchant.getIdentifier()),
                     Placeholder.of("max_level", enchant.getMaxLevel()),
@@ -63,8 +63,8 @@ public class InfoMenu extends FastInv {
                             .getDescription()
                             .stream()
                             .map(s -> config.getString("enchant-item.description-color") + s)
-                            .collect(Collectors.toList())))
-                    .build());
+                            .collect(Collectors.toList()))
+            ).build());
         });
     }
 }

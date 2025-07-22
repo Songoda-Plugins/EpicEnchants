@@ -26,7 +26,7 @@ public class EnchanterMenu extends FastInv {
         super(config.getInt("rows") * 9, color(config.getString("title")));
 
         if (config.isConfigurationSection("fill")) {
-            fill(new ItemBuilder(config.getConfigurationSection("fill")).build());
+            fill(ItemBuilder.fromSection(config.getConfigurationSection("fill")).build());
         }
 
         config.getConfigurationSection("contents").getKeys(false)
@@ -43,7 +43,7 @@ public class EnchanterMenu extends FastInv {
                         ecoLeft = ecoCost - EconomyManager.getBalance(player) < 0 ? 0 : ecoCost - EconomyManager.getBalance(player);
                     Group group = instance.getGroupManager().getValue(section.getString("group").toUpperCase())
                             .orElseThrow(() -> new IllegalArgumentException("Invalid group set in enchanter: " + section.getString("group")));
-                    ItemStack itemStack = new ItemBuilder(section,
+                    ItemStack itemStack = ItemBuilder.fromSection(section,
                             Placeholder.of("exp_cost", expCost),
                             Placeholder.of("eco_cost", ecoCost),
                             Placeholder.of("exp_left", xpLeft),
@@ -81,6 +81,6 @@ public class EnchanterMenu extends FastInv {
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
                 .filter(section -> section.get("group") == null)
-                .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build()));
+                .forEach(section -> addItem(getSlots(section.getString("slot")), ItemBuilder.fromSection(section).build()));
     }
 }

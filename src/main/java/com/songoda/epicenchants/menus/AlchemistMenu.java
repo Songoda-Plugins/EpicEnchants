@@ -40,11 +40,11 @@ public class AlchemistMenu extends FastInv {
         this.PREVIEW_SLOT = config.getInt("preview-slot");
         this.ACCEPT_SLOT = config.getInt("accept-slot");
 
-        this.PREVIEW_ITEM = new ItemBuilder(config.getConfigurationSection("contents.preview")).build();
-        this.ACCEPT_ITEM = new ItemBuilder(config.getConfigurationSection("contents.accept-before")).build();
+        this.PREVIEW_ITEM = ItemBuilder.fromSection(config.getConfigurationSection("contents.preview")).build();
+        this.ACCEPT_ITEM = ItemBuilder.fromSection(config.getConfigurationSection("contents.accept-before")).build();
 
         if (config.isConfigurationSection("fill")) {
-            fill(new ItemBuilder(config.getConfigurationSection("fill")).build());
+            fill(ItemBuilder.fromSection(config.getConfigurationSection("fill")).build());
         }
 
         Set<String> filter = new HashSet<String>() {{
@@ -58,7 +58,7 @@ public class AlchemistMenu extends FastInv {
                 .filter(s -> !filter.contains(s))
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
-                .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build()));
+                .forEach(section -> addItem(getSlots(section.getString("slot")), ItemBuilder.fromSection(section).build()));
 
         clear(this.RIGHT_SLOT);
         clear(this.LEFT_SLOT);
@@ -264,7 +264,7 @@ public class AlchemistMenu extends FastInv {
             getInventory().setItem(this.PREVIEW_SLOT, this.instance.getSpecialItems().getDust(newGroup, "magic", successRate, true));
         }
 
-        addItem(this.ACCEPT_SLOT, new ItemBuilder(this.config.getConfigurationSection("contents.accept-after"),
+        addItem(this.ACCEPT_SLOT, ItemBuilder.fromSection(this.config.getConfigurationSection("contents.accept-after"),
                 Placeholder.of("eco_cost", ecoCost),
                 Placeholder.of("exp_cost", expCost)
         ).build(), event -> {
