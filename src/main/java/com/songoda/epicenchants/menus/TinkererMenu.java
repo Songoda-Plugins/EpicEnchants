@@ -74,7 +74,6 @@ public class TinkererMenu extends FastInv {
 
                             int amount = 0;
 
-                            outer:
                             for (int i = 0; i < inventory.getSize(); i++) {
                                 ItemStack itemStack = inventory.getItem(i);
                                 ItemType itemType = isTinkerable(itemStack);
@@ -84,10 +83,12 @@ public class TinkererMenu extends FastInv {
                                 }
 
                                 int toSet = itemStack.getAmount();
+                                boolean inventoryFull = false;
 
                                 for (int j = 0; j < itemStack.getAmount(); j++) {
                                     if (!handleItem(itemStack, itemType)) {
-                                        continue outer;
+                                        inventoryFull = true;
+                                        break;
                                     }
 
                                     amount++;
@@ -96,11 +97,14 @@ public class TinkererMenu extends FastInv {
 
                                 if (toSet < 1) {
                                     inventory.clear(i);
-                                    continue;
+                                } else {
+                                    itemStack.setAmount(toSet);
+                                    inventory.setItem(i, itemStack);
                                 }
 
-                                itemStack.setAmount(toSet);
-                                inventory.setItem(i, itemStack);
+                                if (inventoryFull) {
+                                    break;
+                                }
                             }
 
                             instance.getLocale().getMessage("tinkerer.depositedall")
